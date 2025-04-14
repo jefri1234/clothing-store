@@ -5,18 +5,32 @@ import { Filter, ChevronDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger
+} from "@/components/ui/sheet"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export default function SearchPage({
+export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { q: string }
+  searchParams?: { q?: string }
 }) {
-  const query = searchParams.q || ""
+  const query = searchParams?.q || ""
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -104,7 +118,6 @@ export default function SearchPage({
               <SheetContent side="left" className="w-[300px] sm:w-[350px]">
                 <h2 className="text-xl font-semibold mb-4">Filtros</h2>
                 <Accordion type="multiple" className="w-full">
-                  {/* Reutilizando lógica para móvil */}
                   {[
                     { name: "Categoría", options: ["Gorras", "Polos", "Poleras"] },
                     { name: "Precio", options: ["$0 - $25", "$25 - $50", "$50 - $100"] },
