@@ -18,7 +18,7 @@ const categoryNames: Record<string, string> = {
   pantalones: "Pantalones",
 }
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const categoryName = categoryNames[params.slug] || params.slug
 
   // Simulación de productos para la categoría
