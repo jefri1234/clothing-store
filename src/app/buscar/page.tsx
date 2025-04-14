@@ -34,117 +34,57 @@ export default function SearchPage({
             <h2 className="text-xl font-semibold mb-4">Filtros</h2>
 
             <Accordion type="multiple" className="w-full">
+              {/* Categoría */}
               <AccordionItem value="category">
                 <AccordionTrigger>Categoría</AccordionTrigger>
                 <AccordionContent>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="category-1" />
+                  {["Gorras", "Polos", "Poleras", "Pantalones"].map((cat, idx) => (
+                    <div key={cat} className="flex items-center space-x-2">
+                      <Checkbox id={`category-${idx + 1}`} />
                       <label
-                        htmlFor="category-1"
+                        htmlFor={`category-${idx + 1}`}
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        Gorras
+                        {cat}
                       </label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="category-2" />
-                      <label
-                        htmlFor="category-2"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Polos
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="category-3" />
-                      <label
-                        htmlFor="category-3"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Poleras
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="category-4" />
-                      <label
-                        htmlFor="category-4"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Pantalones
-                      </label>
-                    </div>
-                  </div>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
 
+              {/* Precio */}
               <AccordionItem value="price">
                 <AccordionTrigger>Precio</AccordionTrigger>
                 <AccordionContent>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="price-1" />
+                  {["$0 - $25", "$25 - $50", "$50 - $100"].map((price, idx) => (
+                    <div key={price} className="flex items-center space-x-2">
+                      <Checkbox id={`price-${idx + 1}`} />
                       <label
-                        htmlFor="price-1"
+                        htmlFor={`price-${idx + 1}`}
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        $0 - $25
+                        {price}
                       </label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="price-2" />
-                      <label
-                        htmlFor="price-2"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        $25 - $50
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="price-3" />
-                      <label
-                        htmlFor="price-3"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        $50 - $100
-                      </label>
-                    </div>
-                  </div>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
 
+              {/* Color */}
               <AccordionItem value="color">
                 <AccordionTrigger>Color</AccordionTrigger>
                 <AccordionContent>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="color-1" />
+                  {["Negro", "Blanco", "Azul"].map((color, idx) => (
+                    <div key={color} className="flex items-center space-x-2">
+                      <Checkbox id={`color-${idx + 1}`} />
                       <label
-                        htmlFor="color-1"
+                        htmlFor={`color-${idx + 1}`}
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        Negro
+                        {color}
                       </label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="color-2" />
-                      <label
-                        htmlFor="color-2"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Blanco
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="color-3" />
-                      <label
-                        htmlFor="color-3"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Azul
-                      </label>
-                    </div>
-                  </div>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -164,110 +104,29 @@ export default function SearchPage({
               <SheetContent side="left" className="w-[300px] sm:w-[350px]">
                 <h2 className="text-xl font-semibold mb-4">Filtros</h2>
                 <Accordion type="multiple" className="w-full">
-                  <AccordionItem value="category">
-                    <AccordionTrigger>Categoría</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-category-1" />
-                          <label
-                            htmlFor="mobile-category-1"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Gorras
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-category-2" />
-                          <label
-                            htmlFor="mobile-category-2"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Polos
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-category-3" />
-                          <label
-                            htmlFor="mobile-category-3"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Poleras
-                          </label>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  <AccordionItem value="price">
-                    <AccordionTrigger>Precio</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-price-1" />
-                          <label
-                            htmlFor="mobile-price-1"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            $0 - $25
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-price-2" />
-                          <label
-                            htmlFor="mobile-price-2"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            $25 - $50
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-price-3" />
-                          <label
-                            htmlFor="mobile-price-3"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            $50 - $100
-                          </label>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  <AccordionItem value="color">
-                    <AccordionTrigger>Color</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-color-1" />
-                          <label
-                            htmlFor="mobile-color-1"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Negro
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-color-2" />
-                          <label
-                            htmlFor="mobile-color-2"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Blanco
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-color-3" />
-                          <label
-                            htmlFor="mobile-color-3"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Azul
-                          </label>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                  {/* Reutilizando lógica para móvil */}
+                  {[
+                    { name: "Categoría", options: ["Gorras", "Polos", "Poleras"] },
+                    { name: "Precio", options: ["$0 - $25", "$25 - $50", "$50 - $100"] },
+                    { name: "Color", options: ["Negro", "Blanco", "Azul"] },
+                  ].map((section) => (
+                    <AccordionItem key={section.name} value={section.name.toLowerCase()}>
+                      <AccordionTrigger>{section.name}</AccordionTrigger>
+                      <AccordionContent>
+                        {section.options.map((opt, idx) => (
+                          <div key={opt} className="flex items-center space-x-2">
+                            <Checkbox id={`mobile-${section.name.toLowerCase()}-${idx + 1}`} />
+                            <label
+                              htmlFor={`mobile-${section.name.toLowerCase()}-${idx + 1}`}
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                              {opt}
+                            </label>
+                          </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
                 </Accordion>
               </SheetContent>
             </Sheet>
@@ -298,7 +157,6 @@ export default function SearchPage({
 }
 
 function SearchResults({ query }: { query: string }) {
-  // Simulación de resultados de búsqueda
   const results = Array.from({ length: 9 }, (_, i) => ({
     id: i + 1,
     name: query ? `${query} - Producto ${i + 1}` : `Producto ${i + 1}`,
@@ -311,7 +169,9 @@ function SearchResults({ query }: { query: string }) {
     return (
       <div className="text-center py-12">
         <h3 className="text-xl font-semibold mb-2">No se encontraron resultados</h3>
-        <p className="text-muted-foreground mb-6">No pudimos encontrar productos que coincidan con "{query}".</p>
+        <p className="text-muted-foreground mb-6">
+          No pudimos encontrar productos que coincidan con &quot;{query}&quot;.
+        </p>
         <Button asChild>
           <Link href="/">Volver al inicio</Link>
         </Button>
