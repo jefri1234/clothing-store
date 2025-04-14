@@ -67,7 +67,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         <div className="space-y-4">
           <div className="relative aspect-square overflow-hidden rounded-lg border">
             <Image
-              src={product.images[0] || "/placeholder.svg"}
+              src={`/img/polos.jpg`}
               alt={product.name}
               fill
               className="object-cover"

@@ -7,30 +7,62 @@ import { Card, CardContent } from "@/components/ui/card"
 import SearchBar from "@/components/search-bar"
 
 export default function Home() {
+
+  
   const categories = [
     {
       id: "gorras",
       name: "Gorras",
       description: "Estilo y protección para cualquier ocasión",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "/img/gorras.jpg"
     },
     {
       id: "polos",
       name: "Polos",
       description: "Comodidad y estilo casual para el día a día",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "img/gorras.jpg"
     },
     {
       id: "poleras",
       name: "Poleras",
       description: "Mantente abrigado con nuestras poleras de alta calidad",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "img/gorras.jpg"
     },
     {
       id: "pantalones",
       name: "Pantalones",
       description: "Variedad de estilos para completar tu look",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "img/gorras.jpg"
+    },
+  ]
+  const productosDestacados = [
+    {
+      id: 1,
+      name: "Gorra de Algodón",
+      description: "Gorra de algodón con diseño moderno",
+      price: 19.99,
+      image: "/img/gorras.jpg"
+    },
+    {
+      id: 2,
+      name: "Polera Básica",
+      description: "Polera básica de algodón suave",
+      price: 15.99,
+      image: "/img/poleras.jpg"
+    },
+    {
+      id: 3,
+      name: "Pantalón Deportivo",
+      description: "Pantalón deportivo cómodo y ligero",
+      price: 29.99,
+      image: "/img/pantalones.jpg"
+    },
+    {
+      id: 4,
+      name: "Camisa Casual",
+      description: "Camisa casual de manga larga",
+      price: 24.99,
+      image: "/img/polos.jpg"
     },
   ]
 
@@ -50,9 +82,9 @@ export default function Home() {
             <p className="text-lg md:text-xl mb-8 max-w-2xl animate-fade-in-delay">
               Descubre nuestra colección de ropa de alta calidad para todas las ocasiones
             </p>
-            <Button size="lg" className="animate-fade-in-delay-2">
+            <div  className="animate-fade-in-delay-2 bg-gray-800 rounded-lg px-6 py-3 text-lg font-semibold text-white transition-all duration-300 hover:bg-gray-700">
               Comprar Ahora
-            </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -69,7 +101,7 @@ export default function Home() {
               <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <div className="relative h-64 w-full">
                   <Image
-                    src={category.image || "/placeholder.svg"}
+                    src={`/img/${category.name}.jpg`}
                     alt={category.name}
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-105"
@@ -91,19 +123,19 @@ export default function Home() {
       <section className="mb-12">
         <h2 className="text-3xl font-bold mb-8">Productos Destacados</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((item) => (
-            <Link href={`/producto/${item}`} key={item}>
+          {productosDestacados.map((productoDestacado) => (
+            <Link href={`/producto/${productoDestacado.id}`} key={productoDestacado.id}>
               <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <div className="relative h-64 w-full">
                   <Image
-                    src={`/placeholder.svg?height=400&width=400&text=Producto ${item}`}
-                    alt={`Producto ${item}`}
+                    src={`${productoDestacado.image}`}
+                    alt={productoDestacado.name}
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">Producto {item}</h3>
+                  <h3 className="text-xl font-semibold mb-2">{productoDestacado.name}</h3>
                   <p className="text-muted-foreground mb-4">Descripción breve del producto</p>
                   <p className="text-lg font-bold">$29.99</p>
                 </CardContent>

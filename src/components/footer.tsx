@@ -1,14 +1,32 @@
+"use client"
 import Link from "next/link"
 import { Facebook, Instagram, Twitter } from "lucide-react"
+import { useTheme } from "next-themes"
+import Image from "next/image"
+
 
 export default function Footer() {
+
+  const {theme} = useTheme() //obtenemos el tema actual
+  //dependiendo del tema, se elige el logo adecuado
+  const srcLogo= theme == 'dark' ? '/logos/blanco/logo-texto.png' : '/logos/negro/logo-texto2.png' 
+  
+  
+  
+
+
   return (
     <footer className="bg-muted py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-lg font-bold mb-4">
-              MODA<span className="text-primary">STYLE</span>
+              <Image
+              src={srcLogo}
+              width={120}
+              height={120}
+              alt="logo"
+              />
             </h3>
             <p className="text-muted-foreground">
               Tu tienda de ropa favorita con las mejores prendas para todas las ocasiones.

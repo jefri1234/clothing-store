@@ -4,14 +4,18 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, ShoppingCart, User, Search } from "lucide-react"
+import { useTheme } from "next-themes" // Importa el hook
 
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import { ModeToggle } from "@/components/mode-toggle"
 import SearchBar from "@/components/search-bar"
+import Image from "next/image"
 
 export default function Header() {
+  const { theme } = useTheme() // Obtienes el tema actual
+  console.log("tema actual",theme)//ver el tema actual por consola
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false)
@@ -24,6 +28,10 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Dependiendo del valor de theme, elige el logo adecuado.
+  // Ojo: en algunos casos es preferible usar "resolvedTheme" en lugar de "theme"
+  const logoSrc = theme === "dark" ? "/logos/blanco/logo.png" : "/logos/negro/logo.png"
 
   const routes = [
     { href: "/", label: "Inicio" },
@@ -65,7 +73,13 @@ export default function Header() {
               </SheetContent>
             </Sheet>
             <Link href="/" className="ml-4 lg:ml-0 text-xl font-bold">
-              MODA<span className="text-primary">STYLE</span>
+              <Image 
+                src={logoSrc}
+                alt="Logo"
+                width={150}
+                height={150}
+                className="h-12 w-auto"
+              />
             </Link>
           </div>
 

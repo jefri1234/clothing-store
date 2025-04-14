@@ -26,7 +26,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
     id: i + 1,
     name: `${categoryName.slice(0, -1)} ${i + 1}`,
     price: Math.floor(Math.random() * 50) + 20,
-    image: `/placeholder.svg?height=400&width=400&text=${categoryName} ${i + 1}`,
+    image: `/img/${categoryName}.jpg`,
     colors: ["Negro", "Blanco", "Azul"].slice(0, Math.floor(Math.random() * 3) + 1),
   }))
 
