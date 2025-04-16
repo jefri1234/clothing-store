@@ -10,8 +10,12 @@ export default function PageVisibilityListener() {
 
   useEffect(() => {
     // Esto se ejecuta solo en el cliente
+    // Guardamos el título original al cargar el componente
+    // y lo usamos como fallback en caso de que no haya un título definido.
     setOriginalTitle(document.title);
-
+    
+    // Escuchamos el evento de visibilidad
+    // y cambiamos el título según el estado de visibilidad.
     const handleVisibilityChange = () => {
       if (document.hidden) {
         document.title = "¡No te vayas, regresa😭!";

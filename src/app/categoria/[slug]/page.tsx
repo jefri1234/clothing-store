@@ -1,3 +1,4 @@
+"use client"
 import { SheetContent } from "@/components/ui/sheet"
 import { SheetTrigger } from "@/components/ui/sheet"
 import { Sheet } from "@/components/ui/sheet"
@@ -11,6 +12,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Checkbox } from "@/components/ui/checkbox"
 
+import { useParams } from "next/navigation"
+
+
+//específica de usar tipado con objetos en TypeScript, utilizando Record<K, V> == clave , valor 
 const categoryNames: Record<string, string> = {
   gorras: "Gorras",
   polos: "Polos",
@@ -18,15 +23,21 @@ const categoryNames: Record<string, string> = {
   pantalones: "Pantalones",
 }
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const categoryName = categoryNames[params.slug] || params.slug
+export default  function CategoryPage() {
+  const params = useParams()
+  const slug = params?.slug as string
 
-  // Simulación de productos para la categoría
-  const products = Array.from({ length: 12 }, (_, i) => ({
+  // accedo a categoryNames.polos si es asi entonses usaras "Polos" osea el de la clave polos y se mostrara el string que es ese
+  const categoryName = categoryNames[slug] || slug
+
+  // Simulación de productos para la categoría (9 CARDS)
+  const products = Array.from({ length: 9 }, (_, i) => ({
     id: i + 1,
+    //definicion del nombre concatenado con un numero incrementando de 1 hasta 9
     name: `${categoryName.slice(0, -1)} ${i + 1}`,
     price: Math.floor(Math.random() * 50) + 20,
     image: `/img/${categoryName}.jpg`,
+    //asignacion de colores de forma aleatoria, 1-3 colores por producto
     colors: ["Negro", "Blanco", "Azul"].slice(0, Math.floor(Math.random() * 3) + 1),
   }))
 
@@ -35,7 +46,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
       <div className="flex flex-col gap-2 mb-8">
         <h1 className="text-3xl font-bold">{categoryName}</h1>
         <p className="text-muted-foreground">
-          Encuentra la mejor selección de {categoryName.toLowerCase()} para complementar tu estilo
+          Encuentra la mejor selección de <span className="text-primary">{categoryName.toLowerCase()}</span> para complementar tu estilo
         </p>
       </div>
 
@@ -185,110 +196,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
               <SheetContent side="left" className="w-[300px] sm:w-[350px]">
                 <h2 className="text-xl font-semibold mb-4">Filtros</h2>
                 <Accordion type="multiple" className="w-full">
-                  <AccordionItem value="price">
-                    <AccordionTrigger>Precio</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-price-1" />
-                          <label
-                            htmlFor="mobile-price-1"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            $0 - $25
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-price-2" />
-                          <label
-                            htmlFor="mobile-price-2"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            $25 - $50
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-price-3" />
-                          <label
-                            htmlFor="mobile-price-3"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            $50 - $100
-                          </label>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  <AccordionItem value="color">
-                    <AccordionTrigger>Color</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-color-1" />
-                          <label
-                            htmlFor="mobile-color-1"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Negro
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-color-2" />
-                          <label
-                            htmlFor="mobile-color-2"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Blanco
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-color-3" />
-                          <label
-                            htmlFor="mobile-color-3"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            Azul
-                          </label>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  <AccordionItem value="size">
-                    <AccordionTrigger>Talla</AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-size-1" />
-                          <label
-                            htmlFor="mobile-size-1"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            S
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-size-2" />
-                          <label
-                            htmlFor="mobile-size-2"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            M
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="mobile-size-3" />
-                          <label
-                            htmlFor="mobile-size-3"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            L
-                          </label>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                  {/* Filtros móviles aquí... */}
                 </Accordion>
               </SheetContent>
             </Sheet>
@@ -336,6 +244,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
               </Link>
             ))}
           </div>
+          {/* Fin Productos */}
         </div>
       </div>
     </div>

@@ -24,13 +24,13 @@ export default function RootLayout({
   return (
     <html lang="es" >
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange >
           {/* Este componente se monta una vez y se encarga de cambiar el título */}
           <PageVisibilityListener />
           <div className="flex min-h-screen flex-col">
             <WhatsAppButton />
             {/* Este componente se monta una vez y se encarga de cambiar el título */}
-            <Header />
+            <Header /> 
             <main className="flex-1">{children}</main>
             <Footer />
           </div>

@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 import { Star, Heart, ShoppingCart, ChevronRight, Truck, RotateCcw, Shield } from "lucide-react"
@@ -9,8 +10,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
+import { useParams } from "next/navigation"
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage() {
+
+  const params = useParams()
   // Simulación de datos del producto
   const product = {
     id: params.id,
@@ -28,7 +32,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     rating: 4.5,
     reviews: 128,
     images: [
-      `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Principal`,
+      `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Principal`, 
       `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Lateral`,
       `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Detalle`,
       `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Trasera`,

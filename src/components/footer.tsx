@@ -7,12 +7,12 @@ import Image from "next/image"
 
 export default function Footer() {
 
-  const {theme} = useTheme() //obtenemos el tema actual
+  const { theme } = useTheme() //obtenemos el tema actual
   //dependiendo del tema, se elige el logo adecuado
-  const srcLogo= theme == 'dark' ? '/logos/blanco/logo-texto.png' : '/logos/negro/logo-texto2.png' 
-  
-  
-  
+  const srcLogo = theme == 'dark' ? '/logos/blanco/logo-texto.png' : '/logos/negro/logo-texto2.png'
+
+
+
 
 
   return (
@@ -22,11 +22,13 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">
               <Image
-              src={srcLogo}
-              width={120}
-              height={120}
-              alt="logo"
+                src={srcLogo}
+                width={120}
+                height={120}
+                alt="logo"
+                style={{ height: "auto" }} // 👈 Solución rápida y segura
               />
+
             </h3>
             <p className="text-muted-foreground">
               Tu tienda de ropa favorita con las mejores prendas para todas las ocasiones.
