@@ -1,45 +1,67 @@
 "use client"
-import { SheetContent } from "@/components/ui/sheet"
-import { SheetTrigger } from "@/components/ui/sheet"
-import { Sheet } from "@/components/ui/sheet"
-import Link from "next/link"
-import Image from "next/image"
-import { Filter, ChevronDown } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Card, CardContent } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import Link from "next/link";
+import Image from "next/image";
+import { Filter, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Card, CardContent } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-import { useParams } from "next/navigation"
-
-
-//específica de usar tipado con objetos en TypeScript, utilizando Record<K, V> == clave , valor 
+// Interfaz para los productos
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  colors: string[];
+}
+ 
 const categoryNames: Record<string, string> = {
   gorras: "Gorras",
   polos: "Polos",
   poleras: "Poleras",
   pantalones: "Pantalones",
-}
+};
 
-export default  function CategoryPage() {
-  const params = useParams()
-  const slug = params?.slug as string
+export default function CategoryPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
+  const categoryName = categoryNames[slug] || slug;
 
-  // accedo a categoryNames.polos si es asi entonses usaras "Polos" osea el de la clave polos y se mostrara el string que es ese
-  const categoryName = categoryNames[slug] || slug
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Simulación de productos para la categoría (9 CARDS)
-  const products = Array.from({ length: 9 }, (_, i) => ({
-    id: i + 1,
-    //definicion del nombre concatenado con un numero incrementando de 1 hasta 9
-    name: `${categoryName.slice(0, -1)} ${i + 1}`,
-    price: Math.floor(Math.random() * 50) + 20,
-    image: `/img/${categoryName}.jpg`,
-    //asignacion de colores de forma aleatoria, 1-3 colores por producto
-    colors: ["Negro", "Blanco", "Azul"].slice(0, Math.floor(Math.random() * 3) + 1),
-  }))
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        //peticion a la api enviando el slug de la categoria mediante query params
+        const response = await fetch(`/api/products?category=${slug}`);
+        if (!response.ok) {
+          throw new Error('No se pudieron cargar los productos');
+        }
+        const data: Product[] = await response.json();
+        setProducts(data);
+      } catch (err) {
+        setError(`No se pudieron cargar los productos de: ${slug}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [slug]);
+
+  if (loading) {
+    return <div className="container mx-auto px-4 py-8">Cargando...</div>;
+  }
+
+ 
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -55,7 +77,6 @@ export default  function CategoryPage() {
         <div className="hidden lg:block">
           <div className="sticky top-24">
             <h2 className="text-xl font-semibold mb-4">Filtros</h2>
-
             <Accordion type="multiple" className="w-full">
               <AccordionItem value="price">
                 <AccordionTrigger>Precio</AccordionTrigger>
@@ -63,30 +84,15 @@ export default  function CategoryPage() {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
                       <Checkbox id="price-1" />
-                      <label
-                        htmlFor="price-1"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        $0 - $25
-                      </label>
+                      <label htmlFor="price-1" className="text-sm font-medium">S/0 - S/25</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="price-2" />
-                      <label
-                        htmlFor="price-2"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        $25 - $50
-                      </label>
+                      <label htmlFor="price-2" className="text-sm font-medium">S/25 - S/50</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="price-3" />
-                      <label
-                        htmlFor="price-3"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        $50 - $100
-                      </label>
+                      <label htmlFor="price-3" className="text-sm font-medium">S/50 - S/100</label>
                     </div>
                   </div>
                 </AccordionContent>
@@ -98,39 +104,19 @@ export default  function CategoryPage() {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
                       <Checkbox id="color-1" />
-                      <label
-                        htmlFor="color-1"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Negro
-                      </label>
+                      <label htmlFor="color-1" className="text-sm font-medium">Negro</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="color-2" />
-                      <label
-                        htmlFor="color-2"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Blanco
-                      </label>
+                      <label htmlFor="color-2" className="text-sm font-medium">Blanco</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="color-3" />
-                      <label
-                        htmlFor="color-3"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Azul
-                      </label>
+                      <label htmlFor="color-3" className="text-sm font-medium">Azul</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="color-4" />
-                      <label
-                        htmlFor="color-4"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Rojo
-                      </label>
+                      <label htmlFor="color-4" className="text-sm font-medium">Rojo</label>
                     </div>
                   </div>
                 </AccordionContent>
@@ -142,39 +128,19 @@ export default  function CategoryPage() {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
                       <Checkbox id="size-1" />
-                      <label
-                        htmlFor="size-1"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        S
-                      </label>
+                      <label htmlFor="size-1" className="text-sm font-medium">S</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="size-2" />
-                      <label
-                        htmlFor="size-2"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        M
-                      </label>
+                      <label htmlFor="size-2" className="text-sm font-medium">M</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="size-3" />
-                      <label
-                        htmlFor="size-3"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        L
-                      </label>
+                      <label htmlFor="size-3" className="text-sm font-medium">L</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox id="size-4" />
-                      <label
-                        htmlFor="size-4"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        XL
-                      </label>
+                      <label htmlFor="size-4" className="text-sm font-medium">XL</label>
                     </div>
                   </div>
                 </AccordionContent>
@@ -196,7 +162,7 @@ export default  function CategoryPage() {
               <SheetContent side="left" className="w-[300px] sm:w-[350px]">
                 <h2 className="text-xl font-semibold mb-4">Filtros</h2>
                 <Accordion type="multiple" className="w-full">
-                  {/* Filtros móviles aquí... */}
+                  {/* Puedes copiar los filtros de arriba aquí si quieres */}
                 </Accordion>
               </SheetContent>
             </Sheet>
@@ -217,7 +183,8 @@ export default  function CategoryPage() {
           </div>
 
           {/* Productos */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            error ? <p className="text-red-500">{error}</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <Link href={`/producto/${product.id}`} key={product.id}>
                 <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
@@ -238,15 +205,15 @@ export default  function CategoryPage() {
                         </span>
                       ))}
                     </div>
-                    <p className="text-lg font-bold">${product.price.toFixed(2)}</p>
+                    <p className="text-lg font-bold">S/{product.price.toFixed(2)}</p>
                   </CardContent>
                 </Card>
               </Link>
             ))}
           </div>
-          {/* Fin Productos */}
+          }
         </div>
       </div>
     </div>
-  )
+  );
 }

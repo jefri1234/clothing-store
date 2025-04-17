@@ -3,7 +3,7 @@
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider, ThemeProviderProps } from "next-themes"
-import useHasMounted from  "@/app/hooks/useHasMounted"
+import useHasMounted from  "@/hooks/useHasMounted"
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const hasMounted = useHasMounted()
