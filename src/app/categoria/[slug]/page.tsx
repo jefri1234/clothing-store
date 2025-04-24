@@ -11,7 +11,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-
 // Interfaz para los productos
 interface Product {
   id: number;
@@ -57,9 +56,7 @@ export default function CategoryPage() {
     fetchProducts();
   }, [slug]);
 
-  if (loading) {
-    return <div className="container mx-auto px-4 py-8">Cargando...</div>;
-  }
+  
 
  
 
@@ -184,9 +181,11 @@ export default function CategoryPage() {
 
           {/* Productos */}
           {
+            
+            loading ? <div className="container mx-auto px-4 py-8">Cargando...</div> : 
             error ? <p className="text-red-500">{error}</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
-              <Link href={`/producto/${product.id}`} key={product.id}>
+              <Link href={`/producto/${product.id}?category=${slug}`} key={product.id}>
                 <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <div className="relative h-64 w-full">
                     <Image

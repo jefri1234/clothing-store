@@ -11,10 +11,18 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { useParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
+import { useState, useEffect } from "react"
 
 export default function ProductPage() {
 
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const params = useParams()
+  const searchParams = useSearchParams()
+  const category = searchParams.get("category")
+  console.log("query params capturado",category)
   // Simulación de datos del producto
   const product = {
     id: params.id,
@@ -42,6 +50,27 @@ export default function ProductPage() {
     category: "polos",
     categoryName: "Polos",
   }
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        //peticion a la api enviando el slug de la categoria mediante query params
+        const response = await fetch(`/api/products?category=${category}&product=${params.id}`);
+        if (!response.ok) {
+          throw new Error('No se pudieron cargar los productos');
+        }
+        const data= await response.json();
+        setProducts(data);
+      } catch (err) {
+        setError(`No se pudieron cargar los productos de: ${params.id}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [params.id]);
+
 
   // Productos relacionados
   const relatedProducts = Array.from({ length: 4 }, (_, i) => ({
