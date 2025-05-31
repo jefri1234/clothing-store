@@ -19,7 +19,7 @@ interface Product {
   image: string;
   colors: string[];
 }
- 
+
 const categoryNames: Record<string, string> = {
   gorras: "Gorras",
   polos: "Polos",
@@ -55,10 +55,6 @@ export default function CategoryPage() {
 
     fetchProducts();
   }, [slug]);
-
-  
-
- 
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -181,35 +177,35 @@ export default function CategoryPage() {
 
           {/* Productos */}
           {
-            
-            loading ? <div className="container mx-auto px-4 py-8">Cargando...</div> : 
-            error ? <p className="text-red-500">{error}</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <Link href={`/producto/${product.id}?category=${slug}`} key={product.id}>
-                <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                  <div className="relative h-64 w-full">
-                    <Image
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-500 hover:scale-105"
-                    />
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-                    <div className="flex gap-2 mb-4">
-                      {product.colors.map((color) => (
-                        <span key={color} className="text-xs text-muted-foreground">
-                          {color}
-                        </span>
-                      ))}
-                    </div>
-                    <p className="text-lg font-bold">S/{product.price.toFixed(2)}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+
+            loading ? <div className="container mx-auto px-4 py-8 flex justify-center items-center" ><p>Cargando...</p></div> :
+              error ? <p className="text-red-500">{error}</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <Link href={`/producto/${product.id}?category=${slug}`} key={product.id}>
+                    <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                      <div className="relative h-64 w-full">
+                        <Image
+                          src={product.image || "/placeholder.svg"}
+                          alt={product.name}
+                          fill
+                          className="object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                      </div>
+                      <CardContent className="p-6">
+                        <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                        <div className="flex gap-2 mb-4">
+                          {product.colors.map((color) => (
+                            <span key={color} className="text-xs text-muted-foreground">
+                              {color}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-lg font-bold">S/{product.price.toFixed(2)}</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
           }
         </div>
       </div>

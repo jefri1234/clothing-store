@@ -30,7 +30,7 @@ export default function RootLayout({
           <div className="flex min-h-screen flex-col">
             <WhatsAppButton />
             {/* Este componente se monta una vez y se encarga de cambiar el título */}
-            <Header /> 
+            <Header />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
