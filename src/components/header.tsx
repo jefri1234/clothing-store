@@ -13,9 +13,13 @@ import { ModeToggle } from "@/components/mode-toggle"
 import SearchBar from "@/components/search-bar"
 import Image from "next/image"
 
+import { DialogTitle } from "@radix-ui/react-dialog"
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden" // Asegúrate de tener esta dependencia
+
+
 export default function Header() {
   const { theme } = useTheme() // Obtienes el tema actual
-  console.log("tema actual",theme)//ver el tema actual por consola
+  console.log("tema actual", theme)//ver el tema actual por consola
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false)
@@ -43,11 +47,10 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-background"
-      }`}
+      className={`sticky py-3 top-0 z-50 w-full transition-all duration-300 ${isScrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-background"
+        }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 ">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Sheet>
@@ -57,14 +60,16 @@ export default function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[350px]">
-                <nav className="flex flex-col gap-4 mt-8">
+                <VisuallyHidden>
+                  <DialogTitle>Menú de navegación</DialogTitle>
+                </VisuallyHidden>
+                <nav className="flex flex-col gap-4 mt-8 ">
                   {routes.map((route) => (
                     <Link
                       key={route.href}
                       href={route.href}
-                      className={`text-lg font-medium transition-colors hover:text-primary ${
-                        pathname === route.href ? "text-primary" : "text-muted-foreground"
-                      }`}
+                      className={`text-2xl font-bold transition-colors hover:text-primary ${pathname === route.href ? "text-primary" : "text-muted-foreground"
+                        }`}
                     >
                       {route.label}
                     </Link>
@@ -73,7 +78,7 @@ export default function Header() {
               </SheetContent>
             </Sheet>
             <Link href="/" className="ml-4 lg:ml-0 text-xl font-bold">
-              <Image 
+              <Image
                 src={logoSrc}
                 alt="Logo"
                 width={150}
@@ -88,9 +93,8 @@ export default function Header() {
               <Link
                 key={route.href}
                 href={route.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  pathname === route.href ? "text-primary" : "text-muted-foreground"
-                }`}
+                className={`text-lg font-bold transition-colors hover:text-primary ${pathname === route.href ? "text-primary" : "text-muted-foreground"
+                  }`}
               >
                 {route.label}
               </Link>

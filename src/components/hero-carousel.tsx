@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback,useState, useEffect } from "react"
+import { useCallback, useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -11,9 +11,9 @@ const carouselItems = [
     id: 1,
     image: "/carrusel/modelo.jpg",
     title: "Nueva Colección Primavera",
-    description: "Descubre las últimas tendencias de la temporada",
+    description: "Descubre las últimas tendencias ",
     cta: "Comprar ahora",
-    position: "left",
+    position: "center",
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const carouselItems = [
     title: "Colección Exclusiva",
     description: "Prendas únicas con diseños limitados",
     cta: "Descubrir",
-    position: "right",
+    position: "center",
   },
 ]
 
@@ -48,7 +48,7 @@ export default function HeroCarousel() {
   const goToNextSlide = useCallback(() => {
     const newIndex = (currentIndex + 1) % carouselItems.length
     goToSlide(newIndex)
-  }, [currentIndex,goToSlide])
+  }, [currentIndex, goToSlide])
 
   const goToPrevSlide = () => {
     const newIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length
@@ -112,10 +112,10 @@ export default function HeroCarousel() {
                     currentIndex === index ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0",
                   )}
                 >
-                  <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 text-white drop-shadow-md">
+                  <h2 className="text-3xl md:text-5xl text-center lg:text-6xl font-bold mb-4 text-white drop-shadow-md">
                     {item.title}
                   </h2>
-                  <p className="text-lg md:text-xl mb-6 max-w-md text-white/90 drop-shadow">{item.description}</p>
+                  <p className="text-lg md:text-xl mb-6  text-centermax-w-md text-white/90 drop-shadow">{item.description}</p>
                   <Button
                     size="lg"
                     className="bg-white text-black hover:bg-white/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-medium"
