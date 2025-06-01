@@ -34,7 +34,7 @@ export default function CategoryPage() {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -46,8 +46,10 @@ export default function CategoryPage() {
         }
         const data: Product[] = await response.json();
         setProducts(data);
-      } catch (err) {
-        setError(`No se pudieron cargar los productos de: ${slug}`);
+      } catch (error) {
+        console.error("Error al cargar los productos:", error);
+        setProducts([]);
+
       } finally {
         setLoading(false);
       }
@@ -179,7 +181,7 @@ export default function CategoryPage() {
           {
 
             loading ? <div className="container mx-auto px-4 py-8 flex justify-center items-center" ><p>Cargando...</p></div> :
-              error ? <p className="text-red-500">{error}</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <Link href={`/producto/${product.id}?category=${slug}`} key={product.id}>
                     <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">

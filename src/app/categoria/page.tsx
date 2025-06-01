@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const categories = [
   {
@@ -33,7 +34,9 @@ function PageCategoria() {
           {categories.map((cat) => (
             <Link key={cat.name} href={cat.href}>
               <div className="dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer overflow-hidden">
-                <img
+                <Image
+                  width={300}
+                  height={200}
                   src={cat.image}
                   alt={cat.name}
                   className="h-48 w-full object-cover"

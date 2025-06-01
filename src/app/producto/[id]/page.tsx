@@ -5,7 +5,7 @@ import { Star, Heart, ShoppingCart, ChevronRight, Truck, RotateCcw, Shield } fro
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
@@ -14,18 +14,23 @@ import { useParams } from "next/navigation"
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 
+import Tabscomponent from "@/app/producto/[id]/components/tabscomponent"
+
+
 export default function ProductPage() {
 
-  const [products, setProducts] = useState([]);
+  //const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const params = useParams()
+
   const searchParams = useSearchParams()
   const category = searchParams.get("category")
-  console.log("query params capturado",category)
+
+
   // Simulación de datos del producto
   const product = {
-    id: params.id,
+     id: String(params.id), // Aquí conviertes a string
     name: `Producto ${params.id}`,
     price: 39.99,
     originalPrice: 59.99,
@@ -40,7 +45,7 @@ export default function ProductPage() {
     rating: 4.5,
     reviews: 128,
     images: [
-      `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Principal`, 
+      `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Principal`,
       `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Lateral`,
       `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Detalle`,
       `/placeholder.svg?height=600&width=600&text=Producto ${params.id} - Trasera`,
@@ -50,7 +55,10 @@ export default function ProductPage() {
     category: "polos",
     categoryName: "Polos",
   }
+  
 
+
+  // Efecto para cargar los productos según la categoría
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -59,17 +67,18 @@ export default function ProductPage() {
         if (!response.ok) {
           throw new Error('No se pudieron cargar los productos');
         }
-        const data= await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(`No se pudieron cargar los productos de: ${params.id}`);
+        //const data = await response.json();
+        //setProducts(data);
+      } catch (error) {
+        setError(`No se pudieron cargar los productos de: ${params.id} y error ${error}`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
-  }, [params.id]);
+  }, [params.id,category]);
+
 
 
   // Productos relacionados
@@ -80,9 +89,18 @@ export default function ProductPage() {
     image: `/placeholder.svg?height=400&width=400&text=Producto ${Number(params.id) + i + 1}`,
   }))
 
+  if (loading) {
+    return <div className="text-center py-10">Cargando...</div>
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">{error}</div>
+  }
+
+
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Breadcrumb */}
+      {/* Breadcrumb enlaces */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
         <Link href="/" className="hover:text-primary transition-colors">
           Inicio
@@ -138,13 +156,12 @@ export default function ProductPage() {
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-5 w-5 ${
-                      i < Math.floor(product.rating)
-                        ? "text-yellow-400 fill-yellow-400"
-                        : i < product.rating
-                          ? "text-yellow-400 fill-yellow-400 opacity-50"
-                          : "text-gray-300"
-                    }`}
+                    className={`h-5 w-5 ${i < Math.floor(product.rating)
+                      ? "text-yellow-400 fill-yellow-400"
+                      : i < product.rating
+                        ? "text-yellow-400 fill-yellow-400 opacity-50"
+                        : "text-gray-300"
+                      }`}
                   />
                 ))}
                 <span className="ml-2 text-sm text-muted-foreground">({product.reviews} reseñas)</span>
@@ -237,114 +254,7 @@ export default function ProductPage() {
 
       {/* Detalles del producto */}
       <div className="mb-16">
-        <Tabs defaultValue="description">
-          <TabsList className="w-full justify-start border-b rounded-none h-auto p-0">
-            <TabsTrigger
-              value="description"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none py-3"
-            >
-              Descripción
-            </TabsTrigger>
-            <TabsTrigger
-              value="details"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none py-3"
-            >
-              Detalles
-            </TabsTrigger>
-            <TabsTrigger
-              value="reviews"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none py-3"
-            >
-              Reseñas ({product.reviews})
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="description" className="pt-6">
-            <div className="prose max-w-none">
-              <p>
-                Este producto de alta calidad está diseñado para ofrecer comodidad y estilo. Fabricado con materiales
-                premium que garantizan durabilidad y un acabado excepcional.
-              </p>
-              <p>
-                Nuestro compromiso con la calidad se refleja en cada detalle de este producto. Desde la selección de
-                materiales hasta el proceso de fabricación, cada paso está cuidadosamente supervisado para asegurar que
-                recibas un producto que supere tus expectativas.
-              </p>
-              <p>
-                Ya sea para uso diario o para ocasiones especiales, este producto se adaptará perfectamente a tus
-                necesidades, brindándote la confianza y el estilo que buscas.
-              </p>
-            </div>
-          </TabsContent>
-          <TabsContent value="details" className="pt-6">
-            <ul className="list-disc pl-5 space-y-2">
-              {product.features.map((feature, index) => (
-                <li key={index}>{feature}</li>
-              ))}
-              <li>Instrucciones de cuidado: Lavar a máquina, temperatura baja</li>
-              <li>Origen: Importado</li>
-              <li>Código del producto: PROD-{params.id}</li>
-            </ul>
-          </TabsContent>
-          <TabsContent value="reviews" className="pt-6">
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="text-4xl font-bold">{product.rating}</div>
-                <div>
-                  <div className="flex">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-5 w-5 ${
-                          i < Math.floor(product.rating)
-                            ? "text-yellow-400 fill-yellow-400"
-                            : i < product.rating
-                              ? "text-yellow-400 fill-yellow-400 opacity-50"
-                              : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground">Basado en {product.reviews} reseñas</p>
-                </div>
-              </div>
-
-              <Button>Escribir una reseña</Button>
-
-              <div className="space-y-4">
-                {/* Reseñas simuladas */}
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="border-b pb-4 last:border-0">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-semibold">Usuario {i + 1}</h4>
-                        <div className="flex my-1">
-                          {Array.from({ length: 5 }).map((_, j) => (
-                            <Star
-                              key={j}
-                              className={`h-4 w-4 ${
-                                j < 4 + (i % 2) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                      <span className="text-sm text-muted-foreground">
-                        {new Date(Date.now() - i * 86400000 * 7).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <p className="mt-2">
-                      {i === 0
-                        ? "Excelente producto, muy buena calidad y el envío fue rápido. Lo recomiendo totalmente."
-                        : i === 1
-                          ? "Me encanta este producto. El material es de buena calidad y el diseño es muy bonito. Definitivamente compraré más."
-                          : "Buen producto por el precio. La talla es exacta y el color es como se muestra en las imágenes."}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
+        <Tabscomponent product={product} params={{ id: product.id }} />
       </div>
 
       {/* Productos relacionados */}
